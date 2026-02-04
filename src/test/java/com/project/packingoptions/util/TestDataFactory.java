@@ -1,5 +1,6 @@
 package com.project.packingoptions.util;
 
+import com.project.packingoptions.model.Product;
 import net.datafaker.Faker;
 
 import java.math.BigDecimal;
@@ -25,6 +26,37 @@ public class TestDataFactory {
     }
     public static BigDecimal generateBasePrice() {
         return generatePrice(1.00, 50.00);
+    }
+
+    public static Product createProduct() {
+        return Product.builder()
+                .code(generateProductCode())
+                .name(generateProductName())
+                .basePrice(generateBasePrice())
+                .build();
+    }
+    public static Product createProduct(String code) {
+        return Product.builder()
+                .code(code)
+                .name(generateProductName())
+                .basePrice(generateBasePrice())
+                .build();
+    }
+
+    public static Product createProduct(String code, String name) {
+        return Product.builder()
+                .code(code)
+                .name(name)
+                .basePrice(generateBasePrice())
+                .build();
+    }
+
+    public static Product createProduct(String code, String name, BigDecimal basePrice) {
+        return Product.builder()
+                .code(code)
+                .name(name)
+                .basePrice(basePrice)
+                .build();
     }
 
 }
