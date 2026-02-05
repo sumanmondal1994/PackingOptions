@@ -1,12 +1,17 @@
 package com.project.packingoptions.util;
 
+import com.project.packingoptions.dto.OrderItemRequest;
+import com.project.packingoptions.dto.OrderRequest;
 import com.project.packingoptions.dto.ProductRequest;
+import com.project.packingoptions.model.Order;
+import com.project.packingoptions.model.OrderItem;
 import com.project.packingoptions.model.PackagingOption;
 import com.project.packingoptions.model.Product;
 import net.datafaker.Faker;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -125,6 +130,58 @@ public class TestDataFactory {
                     .build());
         }
         return options;
+    }
+
+    public static int generateQuantity() {
+        return faker.number().numberBetween(1, 101);
+    }
+
+    public static int generateQuantity(int min, int max) {
+        return faker.number().numberBetween(min, max + 1);
+    }
+
+    public static OrderItemRequest createOrderItemRequest(String productCode, int quantity) {
+        return OrderItemRequest.builder()
+                .productCode(productCode)
+                .quantity(quantity)
+                .build();
+    }
+    public static OrderItemRequest createOrderItemRequest(String productCode) {
+        return OrderItemRequest.builder()
+                .productCode(productCode)
+                .quantity(generateQuantity(1, 20))
+                .build();
+    }
+    public static OrderRequest createOrderRequest(List<OrderItemRequest> items) {
+        return OrderRequest.builder()
+                .items(items)
+                .build();
+    }
+    public static OrderRequest createOrderRequest(String productCode, int quantity) {
+        return OrderRequest.builder()
+                .items(List.of(createOrderItemRequest(productCode, quantity)))
+                .build();
+    }
+
+    public static Order createOrder(Long id, BigDecimal totalPrice, List<OrderItem> items) {
+        Order order = Order.builder()
+                .id(id)
+                .createdAt(LocalDateTime.now())
+                .totalPrice(totalPrice)
+                .orderItems(items)
+                .build();
+        return order;
+    }
+
+    public static OrderItem createOrderItem(String productCode, int quantity,
+                                            int bundleSize, int bundleCount, BigDecimal priceAtTime) {
+        return OrderItem.builder()
+                .productCode(productCode)
+                .quantityOrdered(quantity)
+                .bundleSize(bundleSize)
+                .bundleCount(bundleCount)
+                .priceAtTime(priceAtTime)
+                .build();
     }
 
 
