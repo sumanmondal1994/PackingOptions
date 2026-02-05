@@ -19,10 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Integration tests for PackagingOptionRepository using Spring Data JPA.
- * Uses DataFaker for generating test data.
- */
+
 @DataJpaTest
 @ActiveProfiles("test")
 class PackagingOptionRepositoryTest {
@@ -41,9 +38,7 @@ class PackagingOptionRepositoryTest {
     @BeforeEach
     void setUp() {
         faker = TestDataFactory.getFaker();
-        // Reset the auto-increment sequence to avoid conflicts with pre-seeded data
-        // (IDs 1-5)
-        entityManager.getEntityManager()
+         entityManager.getEntityManager()
                 .createNativeQuery("ALTER TABLE packaging_options ALTER COLUMN id RESTART WITH 100")
                 .executeUpdate();
     }
@@ -54,15 +49,13 @@ class PackagingOptionRepositoryTest {
         List<PackagingOption> options = packagingOptionRepository.findAll();
 
         assertNotNull(options);
-        // Verify pre-seeded data exists
-        assertTrue(options.size() >= 1);
+         assertTrue(options.size() >= 1);
     }
 
     @Test
     @DisplayName("Should find packaging option by ID")
     void testFindById() {
-        // Get any existing packaging option
-        List<PackagingOption> allOptions = packagingOptionRepository.findAll();
+         List<PackagingOption> allOptions = packagingOptionRepository.findAll();
         assertFalse(allOptions.isEmpty(), "No pre-seeded packaging options found");
 
         PackagingOption existingOption = allOptions.get(0);
@@ -86,8 +79,7 @@ class PackagingOptionRepositoryTest {
     @Test
     @DisplayName("Should find packaging options by product code")
     void testFindByProductCode() {
-        // Testing pre-seeded data - CE should have packaging options
-        List<PackagingOption> options = packagingOptionRepository.findByProductCode("CE");
+         List<PackagingOption> options = packagingOptionRepository.findByProductCode("CE");
 
         assertNotNull(options);
         assertTrue(options.size() >= 1);
@@ -97,8 +89,7 @@ class PackagingOptionRepositoryTest {
     @Test
     @DisplayName("Should return empty list for product with no packaging options")
     void testFindByProductCodeEmpty() {
-        // Create a new product without packaging options
-        String uniqueCode = TestDataFactory.generateProductCode();
+         String uniqueCode = TestDataFactory.generateProductCode();
         while (productRepository.existsByCode(uniqueCode)) {
             uniqueCode = TestDataFactory.generateProductCode();
         }
@@ -119,8 +110,7 @@ class PackagingOptionRepositoryTest {
     @Test
     @DisplayName("Should save a new packaging option")
     void testSave() {
-        // Get an existing product
-        Product product = productRepository.findByCode("CE")
+          Product product = productRepository.findByCode("CE")
                 .orElseThrow(() -> new AssertionError("Pre-seeded product CE not found"));
 
         int bundleSize = TestDataFactory.generateBundleSize();
@@ -143,7 +133,6 @@ class PackagingOptionRepositoryTest {
     @Test
     @DisplayName("Should update an existing packaging option")
     void testUpdate() {
-        // Get an existing packaging option
         List<PackagingOption> allOptions = packagingOptionRepository.findAll();
         assertFalse(allOptions.isEmpty(), "No pre-seeded packaging options found");
 
@@ -165,8 +154,7 @@ class PackagingOptionRepositoryTest {
     @Test
     @DisplayName("Should delete a packaging option by ID")
     void testDeleteById() {
-        // Create a new packaging option to delete
-        Product product = productRepository.findByCode("CE")
+         Product product = productRepository.findByCode("CE")
                 .orElseThrow(() -> new AssertionError("Pre-seeded product CE not found"));
 
         PackagingOption newOption = PackagingOption.builder()
@@ -178,22 +166,17 @@ class PackagingOptionRepositoryTest {
         PackagingOption savedOption = packagingOptionRepository.save(newOption);
         Long savedId = savedOption.getId();
 
-        // Verify it exists
-        assertTrue(packagingOptionRepository.existsById(savedId));
+         assertTrue(packagingOptionRepository.existsById(savedId));
+         packagingOptionRepository.deleteById(savedId);
 
-        // Delete it
-        packagingOptionRepository.deleteById(savedId);
-
-        // Verify it's deleted
-        assertFalse(packagingOptionRepository.existsById(savedId));
+         assertFalse(packagingOptionRepository.existsById(savedId));
     }
 
     @Test
     @DisplayName("Should delete all packaging options by product code")
     void testDeleteByProductCode() {
-        // Create a new product with packaging options
-        String uniqueCode = TestDataFactory.generateProductCode();
-        while (productRepository.existsByCode(uniqueCode)) {
+          String uniqueCode = TestDataFactory.generateProductCode();
+         while (productRepository.existsByCode(uniqueCode)) {
             uniqueCode = TestDataFactory.generateProductCode();
         }
 
@@ -204,8 +187,7 @@ class PackagingOptionRepositoryTest {
                 .build();
         productRepository.save(newProduct);
 
-        // Add packaging options
-        PackagingOption option1 = PackagingOption.builder()
+         PackagingOption option1 = PackagingOption.builder()
                 .product(newProduct)
                 .bundleSize(3)
                 .bundlePrice(new BigDecimal("15.00"))
@@ -219,14 +201,11 @@ class PackagingOptionRepositoryTest {
         packagingOptionRepository.save(option1);
         packagingOptionRepository.save(option2);
 
-        // Verify options exist
-        List<PackagingOption> options = packagingOptionRepository.findByProductCode(uniqueCode);
+         List<PackagingOption> options = packagingOptionRepository.findByProductCode(uniqueCode);
         assertEquals(2, options.size());
 
-        // Delete by product code
         packagingOptionRepository.deleteByProductCode(uniqueCode);
 
-        // Verify options are deleted
         List<PackagingOption> deletedOptions = packagingOptionRepository.findByProductCode(uniqueCode);
         assertTrue(deletedOptions.isEmpty());
     }
@@ -246,7 +225,6 @@ class PackagingOptionRepositoryTest {
     @Test
     @DisplayName("Should correctly calculate price per item")
     void testPricePerItem() {
-        // Create a packaging option with known values
         Product product = productRepository.findByCode("CE")
                 .orElseThrow(() -> new AssertionError("Pre-seeded product CE not found"));
 
@@ -258,8 +236,7 @@ class PackagingOptionRepositoryTest {
 
         PackagingOption savedOption = packagingOptionRepository.save(option);
 
-        // Price per item should be 50.00 / 10 = 5.00
-        BigDecimal expectedPricePerItem = new BigDecimal("5.0000");
+         BigDecimal expectedPricePerItem = new BigDecimal("5.0000");
         assertEquals(expectedPricePerItem, savedOption.getPricePerItem());
     }
 }

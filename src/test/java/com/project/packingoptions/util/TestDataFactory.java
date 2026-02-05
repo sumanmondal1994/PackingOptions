@@ -7,6 +7,7 @@ import net.datafaker.Faker;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -99,6 +100,31 @@ public class TestDataFactory {
                 .bundleSize(bundleSize)
                 .bundlePrice(bundlePrice)
                 .build();
+    }
+    public static PackagingOption createPackagingOption(Long id, String productCode,
+                                                        int bundleSize, BigDecimal bundlePrice) {
+        return PackagingOption.builder()
+                .id(id)
+                .productCode(productCode)
+                .bundleSize(bundleSize)
+                .bundlePrice(bundlePrice)
+                .build();
+    }
+
+
+    public static List<PackagingOption> createPackagingOptions(String productCode, int... bundleSizes) {
+        List<PackagingOption> options = new ArrayList<>();
+        long id = 1L;
+        for (int size : bundleSizes) {
+            BigDecimal price = generatePrice(size * 3.0, size * 8.0);
+            options.add(PackagingOption.builder()
+                    .id(id++)
+                    .productCode(productCode)
+                    .bundleSize(size)
+                    .bundlePrice(price)
+                    .build());
+        }
+        return options;
     }
 
 
