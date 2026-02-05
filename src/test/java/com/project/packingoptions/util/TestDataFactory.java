@@ -1,6 +1,7 @@
 package com.project.packingoptions.util;
 
 import com.project.packingoptions.dto.ProductRequest;
+import com.project.packingoptions.model.PackagingOption;
 import com.project.packingoptions.model.Product;
 import net.datafaker.Faker;
 
@@ -82,5 +83,23 @@ public class TestDataFactory {
                 .mapToObj(i -> createProduct())
                 .collect(Collectors.toList());
     }
+
+    public static int generateBundleSize() {
+        return faker.number().numberBetween(2, 11);
+    }
+
+
+    public static PackagingOption createPackagingOption(String productCode) {
+        int bundleSize = generateBundleSize();
+        BigDecimal bundlePrice = generatePrice(10.00, 100.00);
+
+        return PackagingOption.builder()
+                .id(faker.number().randomNumber())
+                .productCode(productCode)
+                .bundleSize(bundleSize)
+                .bundlePrice(bundlePrice)
+                .build();
+    }
+
 
 }
