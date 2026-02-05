@@ -4,7 +4,10 @@ package com.project.packingoptions.service;
 import com.project.packingoptions.dto.OrderItemRequest;
 import com.project.packingoptions.dto.OrderRequest;
 import com.project.packingoptions.dto.OrderResponse;
+import com.project.packingoptions.dto.OrderResponse.PackageBreakdown;
+import com.project.packingoptions.dto.OrderResponse.ProductBreakdown;
 import com.project.packingoptions.exception.ResourceNotFoundException;
+import com.project.packingoptions.mapper.OrderMapper;
 import com.project.packingoptions.model.Order;
 import com.project.packingoptions.model.OrderItem;
 import com.project.packingoptions.model.PackagingOption;
@@ -36,7 +39,6 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
 
@@ -52,6 +54,9 @@ class OrderServiceTest {
     @Mock
     private PackagingCalculatorService packagingCalculatorService;
 
+    @Mock
+    private OrderMapper orderMapper;
+
     private OrderServiceImpl orderService;
 
     private Faker faker;
@@ -64,14 +69,13 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         orderService = new OrderServiceImpl(orderRepository, productRepository,
-                packagingOptionRepository, packagingCalculatorService);
+                packagingOptionRepository, packagingCalculatorService, orderMapper);
 
         faker = TestDataFactory.getFaker();
 
         product1 = TestDataFactory.createProduct();
         product2 = TestDataFactory.createProduct();
         product3 = TestDataFactory.createProduct();
-
         product1Options = TestDataFactory.createPackagingOptions(product1.getCode(), 3, 5);
         product2Options = TestDataFactory.createPackagingOptions(product2.getCode(), 2, 5, 8);
     }
@@ -79,7 +83,6 @@ class OrderServiceTest {
     @Test
     @DisplayName("Should create order with single product")
     void testCreateOrderSingleProduct() {
-        // Arrange
         int quantity = TestDataFactory.generateQuantity(5, 15);
         BigDecimal bundlePrice = TestDataFactory.generatePrice(15, 25);
         int bundleSize = 5;
@@ -109,14 +112,42 @@ class OrderServiceTest {
             return order;
         });
 
+        ProductBreakdown productBreakdown = ProductBreakdown.builder()
+                .productCode(product1.getCode())
+                .productName(product1.getName())
+                .quantityOrdered(quantity)
+                .subtotal(totalPrice)
+                .packages(Arrays.asList(PackageBreakdown.builder()
+                        .bundleSize(bundleSize)
+                        .bundleCount(bundleCount)
+                        .pricePerBundle(bundlePrice)
+                        .totalPrice(totalPrice)
+                        .build()))
+                .build();
+        when(orderMapper.toProductBreakdown(any(Product.class), anyInt(), any(PackagingBreakdown.class)))
+                .thenReturn(productBreakdown);
+
+        when(orderMapper.toResponse(any(Order.class), anyList())).thenAnswer(invocation -> {
+            Order savedOrder = invocation.getArgument(0);
+            List<ProductBreakdown> breakdowns = invocation.getArgument(1);
+            return OrderResponse.builder()
+                    .orderId(savedOrder.getId())
+                    .createdAt(savedOrder.getCreatedAt())
+                    .totalPrice(savedOrder.getTotalPrice())
+                    .totalPackages(bundleCount)
+                    .productBreakdowns(breakdowns)
+                    .build();
+        });
+
         OrderResponse response = orderService.createOrder(request);
+
         assertNotNull(response);
         assertNotNull(response.getOrderId());
         assertEquals(totalPrice, response.getTotalPrice());
         assertEquals(1, response.getProductBreakdowns().size());
 
-        OrderResponse.ProductBreakdown productBreakdown = response.getProductBreakdowns().get(0);
-        assertEquals(product1.getCode(), productBreakdown.getProductCode());
+        ProductBreakdown resultBreakdown = response.getProductBreakdowns().get(0);
+        assertEquals(product1.getCode(), resultBreakdown.getProductCode());
     }
 
     @Test
@@ -188,6 +219,32 @@ class OrderServiceTest {
             return order;
         });
 
+        when(orderMapper.toProductBreakdown(any(Product.class), anyInt(), any(PackagingBreakdown.class)))
+                .thenAnswer(invocation -> {
+                    Product p = invocation.getArgument(0);
+                    int qty = invocation.getArgument(1);
+                    PackagingBreakdown bd = invocation.getArgument(2);
+                    return ProductBreakdown.builder()
+                            .productCode(p.getCode())
+                            .productName(p.getName())
+                            .quantityOrdered(qty)
+                            .subtotal(bd.getTotalPrice())
+                            .packages(Collections.emptyList())
+                            .build();
+                });
+
+        when(orderMapper.toResponse(any(Order.class), anyList())).thenAnswer(invocation -> {
+            Order savedOrder = invocation.getArgument(0);
+            List<ProductBreakdown> breakdowns = invocation.getArgument(1);
+            return OrderResponse.builder()
+                    .orderId(savedOrder.getId())
+                    .createdAt(savedOrder.getCreatedAt())
+                    .totalPrice(savedOrder.getTotalPrice())
+                    .totalPackages(5)
+                    .productBreakdowns(breakdowns)
+                    .build();
+        });
+
         OrderResponse response = orderService.createOrder(request);
 
         assertNotNull(response);
@@ -236,7 +293,15 @@ class OrderServiceTest {
         order.addOrderItem(item);
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-        when(productRepository.findByCode(product1.getCode())).thenReturn(Optional.of(product1));
+
+        OrderResponse expectedResponse = OrderResponse.builder()
+                .orderId(orderId)
+                .createdAt(order.getCreatedAt())
+                .totalPrice(totalPrice)
+                .totalPackages(bundleCount)
+                .productBreakdowns(Collections.emptyList())
+                .build();
+        when(orderMapper.toResponse(order)).thenReturn(expectedResponse);
 
         Optional<OrderResponse> result = orderService.getOrderById(orderId);
 
@@ -275,3 +340,4 @@ class OrderServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> orderService.deleteOrder(nonExistentId));
     }
 }
+

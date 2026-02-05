@@ -1,6 +1,7 @@
 package com.project.packingoptions.controller;
 
 
+import com.project.packingoptions.dto.OrderItemRequest;
 import com.project.packingoptions.dto.OrderRequest;
 import com.project.packingoptions.dto.OrderResponse;
 import com.project.packingoptions.exception.ResourceNotFoundException;
@@ -61,9 +62,28 @@ public class OrderController {
     })
     public ResponseEntity<OrderResponse> createOrder(
             @Valid @RequestBody OrderRequest request) {
-        OrderResponse response = orderService.createOrder(request);
+
+        OrderRequest sanitizedRequest = sanitizeOrderRequest(request);
+        OrderResponse response = orderService.createOrder(sanitizedRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+  }
+
+    private OrderRequest sanitizeOrderRequest(OrderRequest request) {
+        if (request == null || request.getItems() == null) {
+            return request;
+        }
+
+        List<OrderItemRequest> normalizedItems = request.getItems().stream()
+                .map(item -> OrderItemRequest.builder()
+                        .productCode(item.getProductCode().trim().toUpperCase())
+                        .quantity(item.getQuantity())
+                        .build())
+                .toList();
+
+        return OrderRequest.builder()
+                .items(normalizedItems)
+                .build();
     }
 
     @DeleteMapping("/{id}")
