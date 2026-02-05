@@ -1,10 +1,14 @@
 package com.project.packingoptions.util;
 
+import com.project.packingoptions.dto.ProductRequest;
 import com.project.packingoptions.model.Product;
 import net.datafaker.Faker;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TestDataFactory {
 
@@ -57,6 +61,26 @@ public class TestDataFactory {
                 .name(name)
                 .basePrice(basePrice)
                 .build();
+    }
+    public static ProductRequest createProductRequest(String code, String name, BigDecimal price) {
+        return ProductRequest.builder()
+                .code(code)
+                .name(name)
+                .basePrice(price)
+                .build();
+    }
+    public static ProductRequest createProductRequest() {
+        return ProductRequest.builder()
+                .code(generateProductCode())
+                .name(generateProductName())
+                .basePrice(generateBasePrice())
+                .build();
+    }
+
+    public static List<Product> createProducts(int count) {
+        return IntStream.range(0, count)
+                .mapToObj(i -> createProduct())
+                .collect(Collectors.toList());
     }
 
 }
