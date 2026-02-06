@@ -1,9 +1,11 @@
 package com.project.packingoptions.service;
 
 import com.project.packingoptions.dto.ProductRequest;
+import com.project.packingoptions.dto.ProductUpdateRequest;
 import com.project.packingoptions.exception.ResourceAlreadyExistsException;
 import com.project.packingoptions.exception.ResourceNotFoundException;
 import com.project.packingoptions.model.Product;
+import com.project.packingoptions.repository.PackagingOptionRepository;
 import com.project.packingoptions.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,8 +20,9 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final PackagingOptionRepository packagingOptionRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -53,18 +56,13 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product updateProduct(String code, ProductRequest request) {
+    public Product updateProduct(String code, ProductUpdateRequest request) {
         log.info("Updating product with code: {}", code);
 
         Product existingProduct = productRepository.findByCode(code)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "code", code));
 
-        // If code is being changed, verify new code doesn't exist
-        if (!code.equals(request.getCode()) && productRepository.existsByCode(request.getCode())) {
-            throw new ResourceAlreadyExistsException("Product", "code", request.getCode());
-        }
-
-        // Update the existing product
+        // Update the existing product (code remains unchanged)
         existingProduct.setName(request.getName());
         existingProduct.setBasePrice(request.getBasePrice());
 
@@ -78,6 +76,9 @@ public class ProductServiceImpl implements ProductService{
         if (!productRepository.existsByCode(code)) {
             throw new ResourceNotFoundException("Product", "code", code);
         }
+
+        // Delete associated packaging options first
+        packagingOptionRepository.deleteByProductCode(code);
 
         productRepository.deleteByCode(code);
     }

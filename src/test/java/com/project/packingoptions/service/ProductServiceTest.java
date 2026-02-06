@@ -1,9 +1,11 @@
 package com.project.packingoptions.service;
 
 import com.project.packingoptions.dto.ProductRequest;
+import com.project.packingoptions.dto.ProductUpdateRequest;
 import com.project.packingoptions.exception.ResourceAlreadyExistsException;
 import com.project.packingoptions.exception.ResourceNotFoundException;
 import com.project.packingoptions.model.Product;
+import com.project.packingoptions.repository.PackagingOptionRepository;
 import com.project.packingoptions.repository.ProductRepository;
 import com.project.packingoptions.util.TestDataFactory;
 import net.datafaker.Faker;
@@ -20,7 +22,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -29,6 +30,9 @@ import static org.mockito.Mockito.*;
 public class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
+
+    @Mock
+    private PackagingOptionRepository packagingOptionRepository;
 
     @InjectMocks
     private ProductServiceImpl productService;
@@ -61,7 +65,6 @@ public class ProductServiceTest {
         assertEquals(2, products.size());
         verify(productRepository, times(1)).findAll();
     }
-
 
     @Test
     @DisplayName("Should return product by code")
@@ -122,8 +125,8 @@ public class ProductServiceTest {
         String updatedName = faker.food().ingredient();
         BigDecimal updatedPrice = TestDataFactory.generateBasePrice();
 
-        ProductRequest request = TestDataFactory.createProductRequest(
-                product1.getCode(), updatedName, updatedPrice);
+        ProductUpdateRequest request = TestDataFactory.createProductUpdateRequest(
+                updatedName, updatedPrice);
 
         when(productRepository.findByCode(product1.getCode())).thenReturn(Optional.of(product1));
         when(productRepository.save(any(Product.class))).thenAnswer(i -> i.getArgument(0));
@@ -141,7 +144,7 @@ public class ProductServiceTest {
     @DisplayName("Should throw exception when updating non-existent product")
     void testUpdateProductNotFound() {
         String nonExistentCode = TestDataFactory.generateProductCode();
-        ProductRequest request = TestDataFactory.createProductRequest();
+        ProductUpdateRequest request = TestDataFactory.createProductUpdateRequest();
 
         when(productRepository.findByCode(nonExistentCode)).thenReturn(Optional.empty());
 
@@ -154,10 +157,12 @@ public class ProductServiceTest {
     @DisplayName("Should delete an existing product")
     void testDeleteProduct() {
         when(productRepository.existsByCode(product1.getCode())).thenReturn(true);
+        doNothing().when(packagingOptionRepository).deleteByProductCode(product1.getCode());
         doNothing().when(productRepository).deleteByCode(product1.getCode());
 
         assertDoesNotThrow(() -> productService.deleteProduct(product1.getCode()));
 
+        verify(packagingOptionRepository, times(1)).deleteByProductCode(product1.getCode());
         verify(productRepository, times(1)).deleteByCode(product1.getCode());
     }
 

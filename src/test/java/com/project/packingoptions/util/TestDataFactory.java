@@ -3,6 +3,7 @@ package com.project.packingoptions.util;
 import com.project.packingoptions.dto.OrderItemRequest;
 import com.project.packingoptions.dto.OrderRequest;
 import com.project.packingoptions.dto.ProductRequest;
+import com.project.packingoptions.dto.ProductUpdateRequest;
 import com.project.packingoptions.model.Order;
 import com.project.packingoptions.model.OrderItem;
 import com.project.packingoptions.model.PackagingOption;
@@ -20,6 +21,7 @@ import java.util.stream.IntStream;
 public class TestDataFactory {
 
     private static final Faker faker = new Faker();
+
     public static Faker getFaker() {
         return faker;
     }
@@ -31,10 +33,12 @@ public class TestDataFactory {
     public static String generateProductName() {
         return faker.food().ingredient();
     }
+
     public static BigDecimal generatePrice(double min, double max) {
         double price = faker.number().randomDouble(2, (long) min, (long) max);
         return BigDecimal.valueOf(price).setScale(2, RoundingMode.HALF_UP);
     }
+
     public static BigDecimal generateBasePrice() {
         return generatePrice(1.00, 50.00);
     }
@@ -46,6 +50,7 @@ public class TestDataFactory {
                 .basePrice(generateBasePrice())
                 .build();
     }
+
     public static Product createProduct(String code) {
         return Product.builder()
                 .code(code)
@@ -69,6 +74,7 @@ public class TestDataFactory {
                 .basePrice(basePrice)
                 .build();
     }
+
     public static ProductRequest createProductRequest(String code, String name, BigDecimal price) {
         return ProductRequest.builder()
                 .code(code)
@@ -76,9 +82,24 @@ public class TestDataFactory {
                 .basePrice(price)
                 .build();
     }
+
     public static ProductRequest createProductRequest() {
         return ProductRequest.builder()
                 .code(generateProductCode())
+                .name(generateProductName())
+                .basePrice(generateBasePrice())
+                .build();
+    }
+
+    public static ProductUpdateRequest createProductUpdateRequest(String name, BigDecimal price) {
+        return ProductUpdateRequest.builder()
+                .name(name)
+                .basePrice(price)
+                .build();
+    }
+
+    public static ProductUpdateRequest createProductUpdateRequest() {
+        return ProductUpdateRequest.builder()
                 .name(generateProductName())
                 .basePrice(generateBasePrice())
                 .build();
@@ -94,7 +115,6 @@ public class TestDataFactory {
         return faker.number().numberBetween(2, 11);
     }
 
-
     public static PackagingOption createPackagingOption(String productCode) {
         int bundleSize = generateBundleSize();
         BigDecimal bundlePrice = generatePrice(10.00, 100.00);
@@ -106,8 +126,9 @@ public class TestDataFactory {
                 .bundlePrice(bundlePrice)
                 .build();
     }
+
     public static PackagingOption createPackagingOption(Long id, String productCode,
-                                                        int bundleSize, BigDecimal bundlePrice) {
+            int bundleSize, BigDecimal bundlePrice) {
         return PackagingOption.builder()
                 .id(id)
                 .productCode(productCode)
@@ -115,7 +136,6 @@ public class TestDataFactory {
                 .bundlePrice(bundlePrice)
                 .build();
     }
-
 
     public static List<PackagingOption> createPackagingOptions(String productCode, int... bundleSizes) {
         List<PackagingOption> options = new ArrayList<>();
@@ -146,17 +166,20 @@ public class TestDataFactory {
                 .quantity(quantity)
                 .build();
     }
+
     public static OrderItemRequest createOrderItemRequest(String productCode) {
         return OrderItemRequest.builder()
                 .productCode(productCode)
                 .quantity(generateQuantity(1, 20))
                 .build();
     }
+
     public static OrderRequest createOrderRequest(List<OrderItemRequest> items) {
         return OrderRequest.builder()
                 .items(items)
                 .build();
     }
+
     public static OrderRequest createOrderRequest(String productCode, int quantity) {
         return OrderRequest.builder()
                 .items(List.of(createOrderItemRequest(productCode, quantity)))
@@ -174,7 +197,7 @@ public class TestDataFactory {
     }
 
     public static OrderItem createOrderItem(String productCode, int quantity,
-                                            int bundleSize, int bundleCount, BigDecimal priceAtTime) {
+            int bundleSize, int bundleCount, BigDecimal priceAtTime) {
         return OrderItem.builder()
                 .productCode(productCode)
                 .quantityOrdered(quantity)
@@ -183,6 +206,5 @@ public class TestDataFactory {
                 .priceAtTime(priceAtTime)
                 .build();
     }
-
 
 }

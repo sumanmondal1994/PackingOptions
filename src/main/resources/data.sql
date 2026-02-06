@@ -11,3 +11,6 @@ MERGE INTO packaging_options (id, product_code, bundle_size, bundle_price) KEY(i
 MERGE INTO packaging_options (id, product_code, bundle_size, bundle_price) KEY(id) VALUES (3, 'HM', 2, 13.95);
 MERGE INTO packaging_options (id, product_code, bundle_size, bundle_price) KEY(id) VALUES (4, 'HM', 5, 29.95);
 MERGE INTO packaging_options (id, product_code, bundle_size, bundle_price) KEY(id) VALUES (5, 'HM', 8, 40.95);
+
+-- Reset the identity sequence to start after the max ID
+ALTER TABLE packaging_options ALTER COLUMN id RESTART WITH (SELECT COALESCE(MAX(id), 0) + 1 FROM packaging_options);
