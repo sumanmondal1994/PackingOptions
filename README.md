@@ -136,7 +136,7 @@ Interactive API documentation is available via **Swagger UI**:
 
 📖 **http://localhost:8080/swagger-ui.html**
 
-### How to Test APIs Using Swagger UI
+### Option 1: Using Swagger UI
 
 <details>
 <summary><strong>Step 1: Open Swagger UI</strong></summary>
@@ -199,6 +199,55 @@ Interactive API documentation is available via **Swagger UI**:
 2. Click **"Try it out"**
 3. Click **"Execute"**
 4. View the list of all available products with their codes and prices
+
+</details>
+
+### Option 2: Using Postman
+
+A pre-configured Postman collection is available for testing all API endpoints.
+
+<details>
+<summary><strong>Step 1: Import the Collection</strong></summary>
+
+1. Open **Postman** application
+2. Click **Import** button (top-left corner)
+3. Choose one of these methods:
+   - **File**: Select `postman-collection/Grocery Shop API.postman_collection.json` from the project folder
+   - **Drag & Drop**: Drag the JSON file directly into Postman
+4. Click **Import** to confirm
+
+</details>
+
+<details>
+<summary><strong>Step 2: Set Up Environment (Optional)</strong></summary>
+
+1. The collection uses `{{baseUrl}}` variable pointing to `http://localhost:8080`
+2. To create an environment:
+   - Click **Environments** → **Create Environment**
+   - Add variable: `baseUrl` = `http://localhost:8080`
+   - Select the environment from the dropdown
+
+</details>
+
+<details>
+<summary><strong>Step 3: Run Requests</strong></summary>
+
+1. Expand the **Grocery Shop API** collection in the sidebar
+2. Browse folders: **Products**, **Packaging Options**, **Orders**
+3. Click on any request to open it
+4. Click **Send** to execute the request
+5. View the response in the lower panel
+
+</details>
+
+<details>
+<summary><strong>Step 4: Example Requests Included</strong></summary>
+
+| Folder | Requests |
+|--------|----------|
+| **Products** | Get All, Get by Code, Create, Update, Delete |
+| **Packaging Options** | Get All, Get by Product, Create, Update, Delete |
+| **Orders** | Create Order, Get by ID, Get All, Delete |
 
 </details>
 

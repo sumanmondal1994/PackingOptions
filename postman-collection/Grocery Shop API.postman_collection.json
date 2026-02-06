@@ -1,0 +1,1950 @@
+{
+  "info": {
+    "_postman_id": "5e6f8226-f7dc-405a-90fc-33c01b2a4e4e",
+    "name": "Grocery Shop API",
+    "description": "## API Documentation\n\n### Overview\n\nThe **API** allows clients to manage products in a grocery catalog (create, read, update, etc.). This documentation focuses on the **Update product** endpoint within this API.\n\n### Base URL and Environment Setup\n\nAll requests use the `{{baseUrl}}` variable so you can easily switch between environments (local, staging, production).\n\n1. Go to **Environments** in Postman and either create a new environment or edit an existing one.\n    \n2. Add a variable:\n    \n    - **Key**: `baseUrl`\n        \n    - **Initial value**: e.g. `http://localhost:8080` (or your actual API host)\n        \n    - **Current value**: same as initial, or another environment‑specific value.\n        \n3. Select this environment in the **environment dropdown** in the top right of Postman.\n    \n\nAll requests in the [Grocery Shop API](https://collection/5083062-5e6f8226-f7dc-405a-90fc-33c01b2a4e4e) collection will now resolve `{{baseUrl}}` using this value.\n\n### Authentication (Bearer Token)\n\nThe API uses **Bearer token** authentication.\n\n1. Obtain an API token from your auth/identity service.\n    \n2. In Postman, set an environment or collection variable:\n    \n    - **Key**: `api_key`\n        \n    - **Value**: your token value\n        \n3. In the request **Authorization** tab, choose **Bearer Token** and set:\n    \n    - **Token**: `{{api_key}}`\n        \n\nExample HTTP header sent by Postman:\n\n``` http\nAuthorization: Bearer {{api_key}}\n\n ```\n\nYou can also set this at the **collection level** so all requests in [Grocery Shop API](https://collection/5083062-5e6f8226-f7dc-405a-90fc-33c01b2a4e4e) inherit it.\n\n---\n\n## Endpoint: Update product\n\n- **Request name in collection**: [Update product](https://request/5083062-581dd298-29aa-4c7b-911e-cf41ed2ea539)\n    \n- **Method**: `PUT`\n    \n- **URL**: `{{baseUrl}}/api/v1/products/:code`\n    \n\n### Description\n\nUpdates an existing product with the provided details.\n\n### Path variables\n\n- `code` (string, required): Unique product code identifying the product to be updated. Example: `CF`.\n    \n\nIn the open request, this is configured as a **Path variable** with key `code` and current value `CF`.\n\n### Request headers\n\n- `Content-Type: application/json`\n    \n- `Accept: \\\\\\\\*/\\\\\\\\*`\n    \n- `Authorization: Bearer {{api_key}}` (if auth is enabled as described above)\n    \n\n### Request body\n\nBody type: **raw** JSON.\n\nSchema (based on the current request body):\n\n``` json\n{\n  \"basePrice\": 3,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}\n\n ```\n\nField descriptions:\n\n- `basePrice` (number, required): Base price of the product. Example: `3`.\n    \n- `code` (string, required): Product code. Should usually match the path `code`. Example: `\"CF\"`.\n    \n- `name` (string, required): Human‑readable product name. Example: `\"Coffee\"`.\n    \n\n### Example request\n\n``` http\nPUT {{baseUrl}}/api/v1/products/CF\nAuthorization: Bearer {{api_key}}\nContent-Type: application/json\nAccept: */*\n{\n  \"basePrice\": 3,\n  \"code\": \"CF\",\n  \"name\": \"Coffee\"\n}\n\n ```\n\n### Example responses\n\nThis request has saved examples that you can view under the **Examples** section of the [Update product](https://request/5083062-581dd298-29aa-4c7b-911e-cf41ed2ea539) request.\n\n#### 200 OK – Product updated successfully\n\nSaved example: **\"Product updated successfully\"**\n\nExample body (from the active 200 response):\n\n``` json\n{\n  \"code\": \"CF\",\n  \"name\": \"string\",\n  \"basePrice\": 3\n}\n\n ```\n\n#### 400 Bad Request – Invalid input\n\nSaved example: **\"Invalid input\"**\n\nThis response is used when the provided input data is invalid (for example, missing required fields or invalid format). Check the example in the **Examples** tab of the [Update product](https://request/5083062-581dd298-29aa-4c7b-911e-cf41ed2ea539) request for the exact payload.\n\n### How to call this endpoint from Postman\n\n1. Open the [Grocery Shop API](https://collection/5083062-5e6f8226-f7dc-405a-90fc-33c01b2a4e4e) collection in the **Personal Workspace**.\n    \n2. Select the **Update product** request: [Update product](https://request/5083062-581dd298-29aa-4c7b-911e-cf41ed2ea539).\n    \n3. Ensure an environment is selected that defines `{{baseUrl}}` and `{{api_key}}`.\n    \n4. Verify the **Path variable** `code` (e.g., `CF`).\n    \n5. Adjust the JSON body if needed (e.g., change `name` or `basePrice`).\n    \n6. Click **Send** to execute the request.\n    \n\n---\n\n## Working with Examples and Mock Servers\n\n### Adding examples\n\nExamples in Postman are saved request–response pairs. They are used for documentation and to power mock servers.\n\nTo add or edit an example:\n\n1. Open the [Update product](https://request/5083062-581dd298-29aa-4c7b-911e-cf41ed2ea539) request.\n    \n2. Send the request with the desired input.\n    \n3. In the **Response** pane, click **Save response > Save as example**.\n    \n4. Give the example a meaningful name (e.g., `Product updated successfully`, `Invalid input`).\n    \n5. Adjust the example’s status code, headers, and body if needed, then **Save**.\n    \n\nYou can create multiple examples per request for different status codes and scenarios.\n\n### Creating and using a mock server\n\nMock servers return responses from saved examples instead of calling the real backend.\n\n1. From the [Grocery Shop API](https://collection/5083062-5e6f8226-f7dc-405a-90fc-33c01b2a4e4e) collection, use **Mock collection** (or **Create mock server** from the sidebar/collection menu).\n    \n2. Select **Grocery Shop API** as the collection and optionally choose an environment.\n    \n3. Give the mock a name (e.g., `Grocery Shop API Mock`) and choose **public** or **private** access.\n    \n4. Create the mock; Postman will give you a **mock URL**.\n    \n5. Replace `{{baseUrl}}` with this mock URL in your environment (or in a dedicated environment) to have all requests, including **Update product**, hit the mock instead of the real API.\n    \n\nWhen a request is sent to the mock URL, Postman matches the request to the saved examples on the corresponding request (method + path) and returns the appropriate example.\n\n---\n\n## Publishing Documentation and Run in Postman\n\n### Publishing documentation\n\n1. Open the [Grocery Shop API](https://collection/5083062-5e6f8226-f7dc-405a-90fc-33c01b2a4e4e) collection.\n    \n2. Click **View documentation** or use the collection menu and select **Publish Docs**.\n    \n3. Choose visibility (team/public) and configure any custom domain options available to your plan.\n    \n4. Publish to get a documentation URL, such as:\n    \n    - `https://documenter.getpostman.com/view/{collection-id}`\n        \n\nThis published documentation will include:\n\n- Request details for **Update product**.\n    \n- Examples (e.g., 200 and 400 responses).\n    \n- Any descriptions you add at the collection, folder, or request level.\n    \n\n### Run in Postman button\n\nYou can embed a **Run in Postman** button in external docs or web pages so others can import the [Grocery Shop API](https://collection/5083062-5e6f8226-f7dc-405a-90fc-33c01b2a4e4e) collection with one click.\n\nExample HTML snippet:\n\n``` html\n<a class=&#x27;preserveHtml&#x27; class=&#x27;preserveHtml&#x27; class=&#x27;preserveHtml&#x27; class=&#x27;preserveHtml&#x27; href=\"https://god.gw.postman.com/run-collection/:collection-id\">\n  <img class=&#x27;preserveHtml&#x27; class=&#x27;preserveHtml&#x27; class=&#x27;preserveHtml&#x27; class=&#x27;preserveHtml&#x27; src=\"https://run.pstmn.io/button.svg\" />\n</a>\n\n ```\n\nReplace `:collection-id` with the public ID of the published **Grocery Shop API** collection from the documentation settings. When users click this button, the full collection (including the **Update product** request and its examples) is imported into their Postman workspace.\n\n---\n\n### Plan steps (what this collection documentation contains)\n\n- Overview of the **Grocery Shop API** and its purpose.\n    \n- Instructions for configuring the `{{baseUrl}}` variable in an environment.\n    \n- Bearer token authentication setup with example `Authorization` header.\n    \n- Detailed documentation for the **Update product** endpoint (`PUT {{baseUrl}}/api/v1/products/:code`), including:\n    \n    - Description\n        \n    - Path variable details\n        \n    - Request headers\n        \n    - Request body schema and field descriptions\n        \n    - Example request\n        \n    - Example responses (200 and 400) referencing saved examples.\n        \n    - Step‑by‑step guide for calling the endpoint from Postman.\n        \n- How to add examples to the request and how they are used.\n    \n- How to create and configure a mock server for this collection.\n    \n- How to publish documentation and embed a **Run in Postman** button.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "5083062"
+  },
+  "item": [
+    {
+      "name": "products",
+      "item": [
+        {
+          "name": "Get all products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ]
+            },
+            "description": "Retrieves a list of all available products"
+          },
+          "response": [
+            {
+              "name": "Successfully retrieved list of products",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"code\": \"string\",\n    \"name\": \"string\",\n    \"basePrice\": 5622.7894746050015\n  },\n  {\n    \"code\": \"string\",\n    \"name\": \"string\",\n    \"basePrice\": 2299.7293162177266\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Create a new product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"basePrice\": 8617.232159462868,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products"
+              ]
+            },
+            "description": "Creates a new product with the provided details"
+          },
+          "response": [
+            {
+              "name": "Product created successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basePrice\": 8617.232159462868,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"basePrice\": 9945.2582303764\n}"
+            },
+            {
+              "name": "Invalid input",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basePrice\": 8617.232159462868,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"basePrice\": 9945.2582303764\n}"
+            },
+            {
+              "name": "Product already exists",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basePrice\": 8617.232159462868,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"basePrice\": 9945.2582303764\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get product by code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/:code",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":code"
+              ],
+              "variable": [
+                {
+                  "key": "code",
+                  "value": "CE",
+                  "description": "Product code"
+                }
+              ]
+            },
+            "description": "Retrieves a product by its unique code"
+          },
+          "response": [
+            {
+              "name": "Product found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:code",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":code"
+                  ],
+                  "variable": [
+                    {
+                      "key": "code",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"basePrice\": 9945.2582303764\n}"
+            },
+            {
+              "name": "Product not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:code",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":code"
+                  ],
+                  "variable": [
+                    {
+                      "key": "code",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"basePrice\": 9945.2582303764\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update a product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"basePrice\": 8617.232159462868,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/:code",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":code"
+              ],
+              "variable": [
+                {
+                  "key": "code",
+                  "value": "CE",
+                  "description": "Product code"
+                }
+              ]
+            },
+            "description": "Updates an existing product with the provided details"
+          },
+          "response": [
+            {
+              "name": "Product updated successfully",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basePrice\": 8617.232159462868,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:code",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":code"
+                  ],
+                  "variable": [
+                    {
+                      "key": "code",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"basePrice\": 9945.2582303764\n}"
+            },
+            {
+              "name": "Invalid input",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basePrice\": 8617.232159462868,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:code",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":code"
+                  ],
+                  "variable": [
+                    {
+                      "key": "code",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"basePrice\": 9945.2582303764\n}"
+            },
+            {
+              "name": "Product not found",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"basePrice\": 8617.232159462868,\n  \"code\": \"string\",\n  \"name\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:code",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":code"
+                  ],
+                  "variable": [
+                    {
+                      "key": "code",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": \"string\",\n  \"name\": \"string\",\n  \"basePrice\": 9945.2582303764\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete a product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/products/:code",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "products",
+                ":code"
+              ],
+              "variable": [
+                {
+                  "key": "code",
+                  "value": "CE",
+                  "description": "Product code"
+                }
+              ]
+            },
+            "description": "Deletes a product by its unique code"
+          },
+          "response": [
+            {
+              "name": "Product deleted successfully",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:code",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":code"
+                  ],
+                  "variable": [
+                    {
+                      "key": "code",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "Product not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/products/:code",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "products",
+                    ":code"
+                  ],
+                  "variable": [
+                    {
+                      "key": "code",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "packaging-options",
+      "item": [
+        {
+          "name": "Get all packaging options",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/packaging-options",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "packaging-options"
+              ]
+            },
+            "description": "Retrieves all available packaging options"
+          },
+          "response": [
+            {
+              "name": "Successfully retrieved list of packaging options",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"id\": 435,\n    \"productCode\": \"string\",\n    \"bundleSize\": 1257,\n    \"bundlePrice\": 3141.016666686678\n  },\n  {\n    \"id\": 7470,\n    \"productCode\": \"string\",\n    \"bundleSize\": 6358,\n    \"bundlePrice\": 9023.083497683923\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Create a packaging option",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bundlePrice\": 3762.2576405155887,\n  \"bundleSize\": 2338,\n  \"productCode\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/packaging-options",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "packaging-options"
+              ]
+            },
+            "description": "Creates a new packaging option for a product"
+          },
+          "response": [
+            {
+              "name": "Packaging option created successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bundlePrice\": 3762.2576405155887,\n  \"bundleSize\": 2338,\n  \"productCode\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5928,\n  \"productCode\": \"string\",\n  \"bundleSize\": 6144,\n  \"bundlePrice\": 7327.138395269979\n}"
+            },
+            {
+              "name": "Invalid input",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bundlePrice\": 3762.2576405155887,\n  \"bundleSize\": 2338,\n  \"productCode\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5928,\n  \"productCode\": \"string\",\n  \"bundleSize\": 6144,\n  \"bundlePrice\": 7327.138395269979\n}"
+            },
+            {
+              "name": "Product not found",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bundlePrice\": 3762.2576405155887,\n  \"bundleSize\": 2338,\n  \"productCode\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5928,\n  \"productCode\": \"string\",\n  \"bundleSize\": 6144,\n  \"bundlePrice\": 7327.138395269979\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get packaging option by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "packaging-options",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6088",
+                  "description": "Packaging option ID"
+                }
+              ]
+            },
+            "description": "Retrieves a packaging option by its ID"
+          },
+          "response": [
+            {
+              "name": "Packaging option found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Packaging option ID"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5928,\n  \"productCode\": \"string\",\n  \"bundleSize\": 6144,\n  \"bundlePrice\": 7327.138395269979\n}"
+            },
+            {
+              "name": "Packaging option not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Packaging option ID"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5928,\n  \"productCode\": \"string\",\n  \"bundleSize\": 6144,\n  \"bundlePrice\": 7327.138395269979\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update a packaging option",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bundlePrice\": 3762.2576405155887,\n  \"bundleSize\": 2338,\n  \"productCode\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "packaging-options",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6088",
+                  "description": "Packaging option ID"
+                }
+              ]
+            },
+            "description": "Updates an existing packaging option"
+          },
+          "response": [
+            {
+              "name": "Packaging option updated successfully",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bundlePrice\": 3762.2576405155887,\n  \"bundleSize\": 2338,\n  \"productCode\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Packaging option ID"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5928,\n  \"productCode\": \"string\",\n  \"bundleSize\": 6144,\n  \"bundlePrice\": 7327.138395269979\n}"
+            },
+            {
+              "name": "Invalid input",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bundlePrice\": 3762.2576405155887,\n  \"bundleSize\": 2338,\n  \"productCode\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Packaging option ID"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5928,\n  \"productCode\": \"string\",\n  \"bundleSize\": 6144,\n  \"bundlePrice\": 7327.138395269979\n}"
+            },
+            {
+              "name": "Packaging option or product not found",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"bundlePrice\": 3762.2576405155887,\n  \"bundleSize\": 2338,\n  \"productCode\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Packaging option ID"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"id\": 5928,\n  \"productCode\": \"string\",\n  \"bundleSize\": 6144,\n  \"bundlePrice\": 7327.138395269979\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete a packaging option",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "packaging-options",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6088",
+                  "description": "Packaging option ID"
+                }
+              ]
+            },
+            "description": "Deletes a packaging option by its ID"
+          },
+          "response": [
+            {
+              "name": "Packaging option deleted successfully",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Packaging option ID"
+                    }
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "Packaging option not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Packaging option ID"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        },
+        {
+          "name": "Get packaging options by product",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/packaging-options/product/:productCode",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "packaging-options",
+                "product",
+                ":productCode"
+              ],
+              "variable": [
+                {
+                  "key": "productCode",
+                  "value": "CE",
+                  "description": "Product code"
+                }
+              ]
+            },
+            "description": "Retrieves all packaging options for a specific product"
+          },
+          "response": [
+            {
+              "name": "Successfully retrieved packaging options",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/product/:productCode",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    "product",
+                    ":productCode"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productCode",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"id\": 435,\n    \"productCode\": \"string\",\n    \"bundleSize\": 1257,\n    \"bundlePrice\": 3141.016666686678\n  },\n  {\n    \"id\": 7470,\n    \"productCode\": \"string\",\n    \"bundleSize\": 6358,\n    \"bundlePrice\": 9023.083497683923\n  }\n]"
+            },
+            {
+              "name": "Product not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/packaging-options/product/:productCode",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "packaging-options",
+                    "product",
+                    ":productCode"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productCode",
+                      "value": "CE",
+                      "description": "Product code"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"id\": 435,\n    \"productCode\": \"string\",\n    \"bundleSize\": 1257,\n    \"bundlePrice\": 3141.016666686678\n  },\n  {\n    \"id\": 7470,\n    \"productCode\": \"string\",\n    \"bundleSize\": 6358,\n    \"bundlePrice\": 9023.083497683923\n  }\n]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "item": [
+        {
+          "name": "Create a new order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"productCode\": \"string\",\n      \"quantity\": 7087\n    },\n    {\n      \"productCode\": \"stri\",\n      \"quantity\": 5593\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders"
+              ]
+            },
+            "description": "Creates a new order with optimal packaging to minimize number of packages. The system will calculate the best way to package products using available bundle options."
+          },
+          "response": [
+            {
+              "name": "Order created successfully with packaging breakdown",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"productCode\": \"string\",\n      \"quantity\": 7087\n    },\n    {\n      \"productCode\": \"stri\",\n      \"quantity\": 5593\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "orders"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"orderId\": 5451,\n  \"createdAt\": \"2000-01-05T20:38:55.306Z\",\n  \"totalPrice\": 2032.8448447866388,\n  \"totalPackages\": 2897,\n  \"productBreakdowns\": [\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 1149,\n      \"subtotal\": 1673.3469526207646,\n      \"packages\": [\n        {\n          \"bundleSize\": 2109,\n          \"bundleCount\": 1217,\n          \"pricePerBundle\": 7479.713048080301,\n          \"totalPrice\": 5799.996248876722,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 954,\n          \"bundleCount\": 1522,\n          \"pricePerBundle\": 5780.473289753713,\n          \"totalPrice\": 2722.0970687326962,\n          \"description\": \"string\"\n        }\n      ]\n    },\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 637,\n      \"subtotal\": 1558.2910855349662,\n      \"packages\": [\n        {\n          \"bundleSize\": 3087,\n          \"bundleCount\": 2879,\n          \"pricePerBundle\": 7666.522858687892,\n          \"totalPrice\": 7456.604863319391,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 4838,\n          \"bundleCount\": 1469,\n          \"pricePerBundle\": 4841.319224745382,\n          \"totalPrice\": 8353.660052526226,\n          \"description\": \"string\"\n        }\n      ]\n    }\n  ]\n}"
+            },
+            {
+              "name": "Invalid input",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"productCode\": \"string\",\n      \"quantity\": 7087\n    },\n    {\n      \"productCode\": \"stri\",\n      \"quantity\": 5593\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "orders"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"orderId\": 5451,\n  \"createdAt\": \"2000-01-05T20:38:55.306Z\",\n  \"totalPrice\": 2032.8448447866388,\n  \"totalPackages\": 2897,\n  \"productBreakdowns\": [\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 1149,\n      \"subtotal\": 1673.3469526207646,\n      \"packages\": [\n        {\n          \"bundleSize\": 2109,\n          \"bundleCount\": 1217,\n          \"pricePerBundle\": 7479.713048080301,\n          \"totalPrice\": 5799.996248876722,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 954,\n          \"bundleCount\": 1522,\n          \"pricePerBundle\": 5780.473289753713,\n          \"totalPrice\": 2722.0970687326962,\n          \"description\": \"string\"\n        }\n      ]\n    },\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 637,\n      \"subtotal\": 1558.2910855349662,\n      \"packages\": [\n        {\n          \"bundleSize\": 3087,\n          \"bundleCount\": 2879,\n          \"pricePerBundle\": 7666.522858687892,\n          \"totalPrice\": 7456.604863319391,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 4838,\n          \"bundleCount\": 1469,\n          \"pricePerBundle\": 4841.319224745382,\n          \"totalPrice\": 8353.660052526226,\n          \"description\": \"string\"\n        }\n      ]\n    }\n  ]\n}"
+            },
+            {
+              "name": "One or more products not found",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"productCode\": \"string\",\n      \"quantity\": 7087\n    },\n    {\n      \"productCode\": \"stri\",\n      \"quantity\": 5593\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "orders"
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"orderId\": 5451,\n  \"createdAt\": \"2000-01-05T20:38:55.306Z\",\n  \"totalPrice\": 2032.8448447866388,\n  \"totalPackages\": 2897,\n  \"productBreakdowns\": [\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 1149,\n      \"subtotal\": 1673.3469526207646,\n      \"packages\": [\n        {\n          \"bundleSize\": 2109,\n          \"bundleCount\": 1217,\n          \"pricePerBundle\": 7479.713048080301,\n          \"totalPrice\": 5799.996248876722,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 954,\n          \"bundleCount\": 1522,\n          \"pricePerBundle\": 5780.473289753713,\n          \"totalPrice\": 2722.0970687326962,\n          \"description\": \"string\"\n        }\n      ]\n    },\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 637,\n      \"subtotal\": 1558.2910855349662,\n      \"packages\": [\n        {\n          \"bundleSize\": 3087,\n          \"bundleCount\": 2879,\n          \"pricePerBundle\": 7666.522858687892,\n          \"totalPrice\": 7456.604863319391,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 4838,\n          \"bundleCount\": 1469,\n          \"pricePerBundle\": 4841.319224745382,\n          \"totalPrice\": 8353.660052526226,\n          \"description\": \"string\"\n        }\n      ]\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get all orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders"
+              ]
+            },
+            "description": "Retrieves all orders with their packaging breakdowns"
+          },
+          "response": [
+            {
+              "name": "Successfully retrieved list of orders",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "orders"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n  {\n    \"orderId\": 3711,\n    \"createdAt\": \"2022-01-17T04:49:46.416Z\",\n    \"totalPrice\": 2802.9201347843104,\n    \"totalPackages\": 8470,\n    \"productBreakdowns\": [\n      {\n        \"productCode\": \"string\",\n        \"productName\": \"string\",\n        \"quantityOrdered\": 4034,\n        \"subtotal\": 8263.220326585566,\n        \"packages\": [\n          {\n            \"bundleSize\": 7745,\n            \"bundleCount\": 4720,\n            \"pricePerBundle\": 4817.686409209829,\n            \"totalPrice\": 2741.8608038622706,\n            \"description\": \"string\"\n          },\n          {\n            \"bundleSize\": 3718,\n            \"bundleCount\": 3609,\n            \"pricePerBundle\": 1400.1439994732311,\n            \"totalPrice\": 2648.1711661068916,\n            \"description\": \"string\"\n          }\n        ]\n      },\n      {\n        \"productCode\": \"string\",\n        \"productName\": \"string\",\n        \"quantityOrdered\": 7045,\n        \"subtotal\": 8017.553085886637,\n        \"packages\": [\n          {\n            \"bundleSize\": 2053,\n            \"bundleCount\": 1218,\n            \"pricePerBundle\": 1808.5839297867713,\n            \"totalPrice\": 900.6464390278501,\n            \"description\": \"string\"\n          },\n          {\n            \"bundleSize\": 5552,\n            \"bundleCount\": 6466,\n            \"pricePerBundle\": 5835.8926799483115,\n            \"totalPrice\": 9974.018189904287,\n            \"description\": \"string\"\n          }\n        ]\n      }\n    ]\n  },\n  {\n    \"orderId\": 4745,\n    \"createdAt\": \"1953-04-05T22:21:57.572Z\",\n    \"totalPrice\": 9023.237660700395,\n    \"totalPackages\": 7460,\n    \"productBreakdowns\": [\n      {\n        \"productCode\": \"string\",\n        \"productName\": \"string\",\n        \"quantityOrdered\": 7965,\n        \"subtotal\": 6411.531625315026,\n        \"packages\": [\n          {\n            \"bundleSize\": 4774,\n            \"bundleCount\": 7091,\n            \"pricePerBundle\": 1276.6513492807462,\n            \"totalPrice\": 8072.798866489564,\n            \"description\": \"string\"\n          },\n          {\n            \"bundleSize\": 8543,\n            \"bundleCount\": 9098,\n            \"pricePerBundle\": 4053.8900531437985,\n            \"totalPrice\": 8846.083738718782,\n            \"description\": \"string\"\n          }\n        ]\n      },\n      {\n        \"productCode\": \"string\",\n        \"productName\": \"string\",\n        \"quantityOrdered\": 3866,\n        \"subtotal\": 4846.062257592989,\n        \"packages\": [\n          {\n            \"bundleSize\": 4991,\n            \"bundleCount\": 9716,\n            \"pricePerBundle\": 9064.11502027606,\n            \"totalPrice\": 7269.172711579792,\n            \"description\": \"string\"\n          },\n          {\n            \"bundleSize\": 2800,\n            \"bundleCount\": 676,\n            \"pricePerBundle\": 9883.811263948748,\n            \"totalPrice\": 2146.5038735047883,\n            \"description\": \"string\"\n          }\n        ]\n      }\n    ]\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get order by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "*/*"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6088",
+                  "description": "Order ID"
+                }
+              ]
+            },
+            "description": "Retrieves an order with its complete packaging breakdown"
+          },
+          "response": [
+            {
+              "name": "Order found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/orders/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "orders",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Order ID"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"orderId\": 5451,\n  \"createdAt\": \"2000-01-05T20:38:55.306Z\",\n  \"totalPrice\": 2032.8448447866388,\n  \"totalPackages\": 2897,\n  \"productBreakdowns\": [\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 1149,\n      \"subtotal\": 1673.3469526207646,\n      \"packages\": [\n        {\n          \"bundleSize\": 2109,\n          \"bundleCount\": 1217,\n          \"pricePerBundle\": 7479.713048080301,\n          \"totalPrice\": 5799.996248876722,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 954,\n          \"bundleCount\": 1522,\n          \"pricePerBundle\": 5780.473289753713,\n          \"totalPrice\": 2722.0970687326962,\n          \"description\": \"string\"\n        }\n      ]\n    },\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 637,\n      \"subtotal\": 1558.2910855349662,\n      \"packages\": [\n        {\n          \"bundleSize\": 3087,\n          \"bundleCount\": 2879,\n          \"pricePerBundle\": 7666.522858687892,\n          \"totalPrice\": 7456.604863319391,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 4838,\n          \"bundleCount\": 1469,\n          \"pricePerBundle\": 4841.319224745382,\n          \"totalPrice\": 8353.660052526226,\n          \"description\": \"string\"\n        }\n      ]\n    }\n  ]\n}"
+            },
+            {
+              "name": "Order not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/orders/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "orders",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Order ID"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "*/*"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"orderId\": 5451,\n  \"createdAt\": \"2000-01-05T20:38:55.306Z\",\n  \"totalPrice\": 2032.8448447866388,\n  \"totalPackages\": 2897,\n  \"productBreakdowns\": [\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 1149,\n      \"subtotal\": 1673.3469526207646,\n      \"packages\": [\n        {\n          \"bundleSize\": 2109,\n          \"bundleCount\": 1217,\n          \"pricePerBundle\": 7479.713048080301,\n          \"totalPrice\": 5799.996248876722,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 954,\n          \"bundleCount\": 1522,\n          \"pricePerBundle\": 5780.473289753713,\n          \"totalPrice\": 2722.0970687326962,\n          \"description\": \"string\"\n        }\n      ]\n    },\n    {\n      \"productCode\": \"string\",\n      \"productName\": \"string\",\n      \"quantityOrdered\": 637,\n      \"subtotal\": 1558.2910855349662,\n      \"packages\": [\n        {\n          \"bundleSize\": 3087,\n          \"bundleCount\": 2879,\n          \"pricePerBundle\": 7666.522858687892,\n          \"totalPrice\": 7456.604863319391,\n          \"description\": \"string\"\n        },\n        {\n          \"bundleSize\": 4838,\n          \"bundleCount\": 1469,\n          \"pricePerBundle\": 4841.319224745382,\n          \"totalPrice\": 8353.660052526226,\n          \"description\": \"string\"\n        }\n      ]\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete an order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "6088",
+                  "description": "Order ID"
+                }
+              ]
+            },
+            "description": "Deletes an order by its ID"
+          },
+          "response": [
+            {
+              "name": "Order deleted successfully",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/orders/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "orders",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Order ID"
+                    }
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": null
+            },
+            {
+              "name": "Order not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/orders/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "orders",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "6088",
+                      "description": "Order ID"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
