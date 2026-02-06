@@ -205,6 +205,7 @@ Interactive API documentation is available via **Swagger UI**:
 ---
 
 ## API Endpoints
+<img width="1255" height="883" alt="image" src="https://github.com/user-attachments/assets/8d2e3cdf-59d6-4f0c-bf80-7dbb5ab613d6" />
 
 <details>
 <summary><strong>Products API (`/api/v1/products`)</strong></summary>
